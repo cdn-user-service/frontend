@@ -1,0 +1,6 @@
+import './clipboard'
+import './i18n'
+import './message'
+import './public'
+import './validate'
+import './directives'

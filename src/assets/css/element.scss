@@ -1,0 +1,249 @@
+// 面包屑
+.el-breadcrumb {
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+// 表格
+.el-table {
+    margin-top: 20px;
+    font-size: 12px;
+
+    /* 表头时间排序按钮 样式重置*/
+    .caret-wrapper {
+        height: 23px;
+    }
+
+    .sort-caret.ascending {
+        top: 0;
+    }
+
+    .sort-caret.descending {
+        bottom: 1px;
+    }
+
+    td,
+    th {
+        padding: 11px 0;
+    }
+
+}
+
+// 表格 top对齐
+.table-align-top {
+    .el-table__cell {
+        vertical-align: top;
+    }
+}
+
+// 解决表格固定列显示不全问题
+.el-table__fixed-right {
+    height: 100% !important;
+}
+
+.el-table__expanded-cell[class*='cell'] {
+    padding: 0;
+}
+
+// 分页
+.el-pagination {
+    margin-top: 20px;
+
+    .el-select .el-input {
+        margin-top: -5px;
+    }
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    color: #fefefe !important;
+}
+
+@media screen and (max-width: 767px) {
+    .el-pagination .el-pagination__jump {
+        display: block !important;
+        margin-top: 20px;
+        margin-left: 0;
+    }
+}
+
+// 级联选择器 
+.el-cascader-panel {
+    height: 300px;
+
+    .el-cascader-menu__wrap {
+        height: 100%;
+    }
+}
+
+// textarea
+.el-textarea__inner {
+    resize: none;
+}
+
+// 表单
+.el-form-item {
+    margin-bottom: 20px;
+}
+
+.el-form-item__error {
+    padding-top: 1px;
+}
+
+.el-form--label-top .el-form-item__label {
+    padding: 0;
+}
+
+.el-switch__label * {
+    font-size: 12px!important;
+}
+
+/* input-number 加减按钮重置*/
+.el-input-number__decrease,
+.el-input-number__increase {
+    background-color: #fff;
+}
+
+.el-range-input {
+    background-color: #fff;
+}
+
+// 对话框
+.el-dialog {
+    border-radius: theme('borderRadius.2xl');
+}
+
+.el-dialog__body {
+    padding: 30px;
+    @media screen and (max-width: 767px) {
+        padding: 20px;
+    }
+}
+
+.el-dialog__title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+// 按钮
+button:focus {
+    outline: none;
+}
+.el-button:not(.is-plain) {
+    color: #fefefe !important;
+}
+
+.el-button.is-plain:focus,
+.el-button.is-plain:hover {
+    color: #fefefe !important;
+}
+
+.el-button.el-button--default {
+    color: theme('colors.ants-text-3')  !important;
+}
+
+.el-button.el-button--default:focus,
+.el-button.el-button--default:hover {
+    color: theme('colors.primary')  !important;
+}
+
+.el-button.el-button--default.el-button--primary {
+    color: #fefefe !important;
+}
+
+.el-button.el-button--default.el-button--primary:focus,
+.el-button.el-button--default.el-button--primary:hover {
+    color: #fefefe !important;
+}
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+    color: #fefefe !important;
+}
+
+.el-radio-button__inner {
+    border-left: 0 !important;
+}
+
+.el-radio-button:first-child .el-radio-button__inner {
+    border-left: 1px solid #DCDFE6 !important;
+}
+
+.el-card {
+    border: none !important;
+    border-radius: theme('borderRadius.xl');
+}
+
+.el-card.is-always-shadow {
+    box-shadow: 0px 1px 15px 1px rgba(0, 0, 0, 0.05);
+}
+
+.el-page-header__content {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* 确认消息弹窗盒子样式 */
+.el-message-box {
+    @apply rounded-2xl;
+}
+
+.el-message-box__title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.el-message-box__content {
+    padding: 30px 25px;
+}
+
+/* 时间选择输入款宽度重置 */
+.el-date-editor--daterange.el-input__inner {
+    width: 300px;
+}
+.el-date-editor .el-range-separator {
+    padding: 0;
+}
+
+.el-radio__input.is-checked {
+    .el-radio__inner::after {
+        background-color: #fefefe;
+    }
+}
+
+.el-checkbox__input.is-checked {
+    .el-checkbox__inner::after {
+        border: 1px solid #fefefe;
+        border-left: 0;
+        border-top: 0;
+    }
+}
+
+.el-switch {
+    .el-switch__core:after {
+        background-color: #fefefe;
+    }
+}
+
+// 输入框placeholder 样式重置
+.el-input input::-webkit-input-placeholder,
+.el-textarea textarea::-webkit-input-placeholder {
+    color: theme('colors.ants-text-4');
+    font-size: 12px;
+}
+
+.el-input input:-moz-placeholder,
+.el-textarea textarea:-moz-placeholder {
+    color: theme('colors.ants-text-4');
+    font-size: 12px;
+}
+
+.el-input input::-moz-placeholder,
+.el-textarea textarea::-moz-placeholder {
+    color: theme('colors.ants-text-4');
+    font-size: 12px;
+}
+
+.el-input input:-ms-input-placeholder,
+.el-textarea textarea:-ms-input-placeholder {
+    color: theme('colors.ants-text-4');
+    font-size: 12px;
+}

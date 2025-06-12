@@ -1,0 +1,23 @@
+export default {
+    已实名: 'Verified',
+    未实名: 'Unverified',
+    '您已完成个人实名认证，可正常使用': 'You have completed individual verification. Now you can start using',
+    '服务，': 'services.',
+    '您好，': 'Hello,',
+    最后登录: 'Last login',
+    手机号登录: 'Log In via mobile number',
+    邮箱登录: 'Log In via email',
+    账号登录: 'Log In via account',
+    微信登录: 'Log In via WeChat',
+    DNS解析: 'DNS Resolution',
+    'A 监控': 'A-Monitor',
+    异常: 'Exception',
+    个: ' ',
+    最新公告: 'Latest Notice',
+    查看: 'View',
+    总数: 'Total',
+    财务统计: 'Financial statistics',
+    总充值: 'Total recharge',
+    总消费: 'Total consumption',
+    差额: 'Difference'
+}

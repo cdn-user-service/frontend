@@ -1,0 +1,37 @@
+export default {
+    变更套餐: 'Change Plan',
+    有效期: 'validity period',
+    流量月结: 'monthly flow',
+    'HTTPS提供对网络服务器的身份认证，保护交换数据的隐私和完整性。': 'HTTPS provides authentication to web servers, protecting the privacy and integrity of exchanged data.',
+    验证域名: 'Verify Domain',
+    选择套餐: 'Select Plan',
+    '注意：变更套餐后，相关配置也会随之改变，谨慎变更！': 'Note: After changing the package, the relevant configuration will also change. Be careful!',
+
+    证书备注: 'Certificate Remarks',
+    证书状态: 'Certificate Status',
+    已配置: 'Configured',
+    配置成功: 'Configured',
+    未配置: 'Unconfigured',
+    配置: 'Configurat',
+    强制HTTPS: 'Force HTTPS',
+    '强制 HTTP 跳转 HTTPS，启用之前请先配置 HTTPS 证书。': 'Force HTTP to redirect to HTTPS, please configure HTTPS certificate before enabling.',
+    'HSTS 为强制客户端（如浏览器）使用 HTTPS 与服务器创建连接，启用 HSTS 前请先启用 HTTPS 协议。': 'HSTS is forcing clients (such as browsers) to use HTTPS to create a connection with the server. Please enable the HTTPS protocol before enabling HSTS.',
+    TLS版本控制: 'TLS versioning',
+    '提供安全保密和数据完整性保障。TLS协议版本开启或关闭后，您的加速域名也将开启或关闭TLS握手。': 'Provide security confidentiality and data integrity assurance. After the TLS protocol version is enabled or disabled, your CDN domain name will also enable or disable the TLS handshake.',
+    配置证书: 'Configurat Certificate',
+    可选证书: 'Optional Certificate',
+
+    添加别名: 'Add Alias',
+    编辑别名: 'Edit Alias',
+    别名: 'Alias',
+    '请输入别名（一行一个，不能重复）': 'Please Enter Alias(One for each line, cannot repeat)',
+    请输入别名: 'Please Enter Alias',
+    主站: 'Main Site',
+
+    流量采集选项: 'Flow collection options',
+    '自定义站点的流量采集选项。若无特殊需求，推荐跟随默认设置。': 'Customize the flow collection options of the site. If there is no special requirement, it is recommended to follow the default setting.',
+    默认设置: 'Default setting',
+    '超高并发（适用于视频资源类型站点，1G以上）': 'Ultra high concurrency (applicable to video resource type sites, above 1G)',
+    '高并发（适用于大型网站，百兆以上）': 'High concurrency (applicable to large websites, above 100M)',
+    '低并发（适用于详细统计站点，低流量）': 'Low concurrency (applicable to detailed statistics sites, low flow)'
+}

@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './transition.scss';
+@import './element.scss';
+@import './global.scss';
+@import './reset.scss';
+@import './ants.scss';
+
+// 主题切换 障眼法
+$mode: () !default;
+$mode: map-merge(
+    (
+        bg-light: #fff,
+        bg-dark: #252528,
+    ),
+    $mode
+);
+
+$bg-light: map-get($mode, bg-light);
+$bg-dark: map-get($mode, bg-dark);
+
+.dark-to-light:after {
+    content: '';
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    margin-left: 0;
+    background-color: $bg-dark;
+    opacity: 0.7;
+    animation: toLight 1s linear 0s forwards;
+    // pointer-events: none;
+}
+
+.light-to-dark:after {
+    content: '';
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    margin-left: 0;
+    background-color: $bg-light;
+    opacity: 0.7;
+    animation: toDark 1s linear 0s forwards;
+    // pointer-events: none;
+}
+
+@keyframes toLight {
+    0% {
+        background-color: $bg-dark;
+        opacity: 0.7;
+    }
+    100% {
+        background-color: $bg-light;
+        opacity: 0;
+    }
+}
+@keyframes toDark {
+    0% {
+        background-color: $bg-light;
+        opacity: 0.7;
+    }
+    100% {
+        background-color: $bg-dark;
+        opacity: 0;
+    }
+}

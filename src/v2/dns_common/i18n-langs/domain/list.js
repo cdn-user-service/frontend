@@ -1,0 +1,36 @@
+
+export default {
+    // 我的域名
+    添加域名: 'Add Domain',
+    输入域名搜索: 'Search here',
+    域名: 'Domain',
+    状态: 'Status',
+    记录数: 'Record',
+    套餐: 'Plan',
+    异常监控: 'Exception',
+    最后操作时间: 'Last Updated',
+    全部分组: 'All Groups',
+
+    发现异常: 'Exception Found',
+    DNS解析正常: 'Normal DNS',
+    开启解析: 'Enable DNS',
+    正常: 'Normal',
+    异常: 'Exception',
+    已暂停解析: 'Paused DNS',
+    查看详情: 'Learn More',
+    条: '',
+    升级套餐: 'Upgrade Plan',
+    套餐到期时间: 'Expiration Date',
+    永久有效: 'Never Expires',
+    免费DNS: 'Free Version',
+    专业版: 'Pro Version',
+    域名设置: 'Domain Settings',
+    删除域名: 'Delete Domain',
+    请输入您要解析的主域名: 'Please enter the main domain name you want to resolve',
+    请输入主域名: 'Please enter the main domain name',
+    'DNS 错误': 'Error DNS',
+    '还没有任何域名，赶紧添加': 'There is no domain name yet, add it quickly',
+    'DNS 不正确': 'Incorrect DNS',
+    '域名已暂停解析，所有解析记录停止生效': 'DNS service for this domain is suspended and all DNS records are invalidated.',
+    '请正确设置 DNS 服务器为': 'Set the DNS servers to'
+}

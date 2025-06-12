@@ -1,0 +1,207 @@
+// 表格搜索框样式
+.ants-search_input {
+    width: 220px;
+
+    .el-input__icon {
+        /* 搜索输入框左侧图标样式 */
+        display: inline-block;
+        line-height: 32px;
+        padding: 0px 0px 0 1px;
+        cursor: pointer;
+        color: theme('colors.ants-text-1');
+        font-weight: 700;
+    }
+}
+
+// 消息提示 icon 样式
+.ants-icon_info {
+    cursor: pointer;
+    color: theme('colors.primary');
+    margin-left: 8px;
+}
+
+// 消息提示盒子样式
+.ants-tips_box {
+    padding: 1.5rem;
+    color: theme('colors.primary');
+    font-size: 12px;
+    background-color: theme('colors.primary-light');
+    // border: 1px solid theme('colors.primary');
+    border-radius: theme('borderRadius.xl');
+    line-height: 18px;
+
+    .el-icon-info {
+        font-size: 14px;
+        // vertical-align: bottom;
+    }
+}
+
+.ants-alert {
+    .el-message-box__btns {
+        padding: 5px 30px;
+
+        .el-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 15px;
+        }
+    }
+}
+
+// 购买按钮颜色
+.ants-price-button.el-button {
+    background-color: theme('colors.price');
+    border-color: theme('colors.price');
+
+    &:hover {
+        background-color: theme('colors.price');
+        border-color: theme('colors.price');
+    }
+}
+
+/** 对话框居中样式 */
+.ants-center_dialog {
+    .el-dialog__body {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 10px;
+
+        @media screen and (max-width: 600px) {
+            display: block;
+        }
+    }
+
+    .el-dialog__footer {
+        padding-bottom: 30px;
+    }
+
+    .el-form-item {
+        margin-bottom: 25px;
+    }
+}
+
+// 开关 loading 加载样式
+.el-switch,
+.ants-switch_loading {
+    .el-loading-mask {
+        border-radius: 10px;
+    }
+
+    .el-loading-spinner {
+        margin-top: -10px;
+    }
+}
+
+.el-switch__label * {
+    font-size: 1rem;
+}
+
+/* 级联选择去样式重置 */
+.ants-cascader_box .el-scrollbar__wrap {
+    overflow-x: hidden;
+}
+
+.el-cascader-node:hover .el-cascader-node__label {
+    color: theme('colors.primary');
+}
+
+.el-cascader-node.is-selectable.in-active-path {
+    color: theme('colors.primary');
+    background-color: #F5F7FA;
+}
+
+.ants-cascader_box .el-cascader__suggestion-panel {
+    padding-bottom: 18px;
+}
+
+// 表格表单验证提示样式
+.ants-table_form_error {
+    margin-bottom: 0;
+
+    >.el-form-item__content {
+        margin-left: 0 !important;
+        line-height: 1;
+    }
+
+    .ants-input-number {
+        .ants-input {
+            width: 100%;
+        }
+    }
+
+    .cell {
+        overflow: visible;
+    }
+
+    .el-form-item__content {
+        line-height: 32px;
+    }
+
+    .el-form-item {
+        margin: 0;
+    }
+
+    .ants-form-error {
+        white-space: nowrap;
+        top: -25px;
+        left: 50%;
+        bottom: auto !important;
+        z-index: 9;
+        padding: 8px 12px;
+        border-radius: 4px;
+        background-color: theme('colors.ants-bg-5');
+        text-align: center;
+        font-size: 12px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+        transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+    }
+
+    .ants-form-error::before {
+        content: '';
+        position: absolute;
+        top: 27px;
+        left: 50%;
+        margin-left: -8px;
+        border: 8px solid rgba(0, 0, 0, 0);
+        border-top-color: theme('colors.ants-bg-5');
+    }
+
+    .el-table__body-wrapper {
+        padding-top: 50px;
+        margin-top: -50px;
+    }
+}
+
+// 图表 format 样式
+.ants-tooltip-box {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 10px !important;
+
+    .ants-format_box {
+        margin-top: -10px;
+
+        >li {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            color: theme('colors.ants-text-3');
+
+            .format_name {
+                padding-right: 10px;
+
+                .format_mark {
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    //   background-color: theme;
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

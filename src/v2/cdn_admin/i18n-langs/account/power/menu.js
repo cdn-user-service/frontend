@@ -1,0 +1,30 @@
+export default {
+    添加顶级菜单: 'Add top-level menu',
+    添加菜单: 'Add menu',
+    修改菜单: 'Edit menu',
+    菜单名称: 'Menu name',
+    请输入菜单名称: 'Please enter the menu name',
+    请输入菜单路径: 'Please enter the menu path',
+    菜单路径: 'Menu path',
+    图标: 'Menu icon',
+    请选择图标: 'Please select the icon',
+    菜单等级: 'Menu level',
+    排序: 'Sort',
+    请输入排序: 'Please enter the sort',
+    数值越大越靠前: 'The higher the value, the more forward',
+    添加菜单成功: 'Successfully added menu',
+    修改菜单成功: 'Successfully modified menu',
+    一级: 'Level 1',
+    二级: 'Level 2',
+    三级: 'Level 3',
+
+    添加权限: 'Add Power',
+    权限名称: 'Power Name',
+    权限标识: 'Power Value',
+    请输入权限名称: 'Please enter the power name',
+    请选择权限: 'Please select the powers',
+    添加权限成功: 'Successfully added power',
+    修改权限成功: 'Successfully modified power',
+    删除权限成功: 'Successfully deleted power'
+
+}

@@ -1,0 +1,27 @@
+export default {
+    防盗链: 'Anti Theft Chain',
+    '保护网站资源不被外部盗用，开启白名单后只允许白名单中域名访问，开启黑名单后只禁止黑名单中域名访问': 'Protect website resources from external misappropriation. After the white list is enabled, only the domain names in the white list are allowed to access, and after the blacklist is enabled, only the domain names in the blacklist are forbidden to access',
+    '由精准访问控制引擎驱动，': 'Driven by the Waf engine',
+    精准访问控制引擎: 'Waf Engine',
+    开启防御后具体防御策略配置请至: 'After enabling the defense, please go to ',
+    处查看: 'to view',
+    黑白名单: 'Black and white list',
+    黑名单: 'Blacklist',
+    白名单: 'Whitelist',
+    返回状态码: 'Return status code',
+    包含referers: 'Include referers',
+    HTTP头包含referers: 'The HTTP header contains referers',
+    授权域名: 'Authorized domain',
+    '请输入匹配域名，一行一个': 'Please enter the matching domain, one for each line',
+    '一行一个域名。支持前端通配符 * ，如': 'One domain name per line. Support the front-end wildcard *, such as ',
+    文件类型: 'File type',
+    文件路径: 'File path',
+    '请输入匹配的文件路径，一行一个': 'Please enter a matching file path, one for each line',
+    '模糊匹配的文件路径，可输入多个，一行一个': 'Fuzzy matching file path, multiple file paths can be entered, one for each line',
+
+    区域屏蔽: 'Area Shielding',
+    '可根据业务需求，允许或禁止特定区域的终端用户对网站资源的访问': 'End users in specific regions can be allowed or prohibited to access website resources according to business needs.',
+    '开启白名单后只允许白名单中地区访问，开启黑名单后只禁止黑名单中地区访问域名': 'After the white list is enabled, only the regions in the white list are allowed to access, and after the blacklist is enabled, only the regions in the blacklist are forbidden to access domain names.',
+    '请输入匹配区域代码，多个区域代码以 “ | ” 分隔': 'Please enter matching area codes. Multiple area codes are separated by "|"',
+    匹配区域: 'Matching area'
+}

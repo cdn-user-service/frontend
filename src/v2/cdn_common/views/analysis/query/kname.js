@@ -1,0 +1,102 @@
+export const kName = {
+  k_ip: '来源IP',
+  k_host: '域名',
+  http_host: '别名',
+  k_cname_type_info: '别名数',
+  k_method: '请求类型',
+  k_new_uri: '请求URL',
+  // k_uri: 'URL',
+  // k_arg: '请求参数',
+  ip_cookie_names: 'FP',
+  k_user_agent: 'User-Agent',
+  k_geoip: '国家区域',
+  l_return_code: '返回码',
+  k_ip_total: 'IP总请求',
+  k_ip_1_sum: 'IP1分钟',
+  k_server_5_sum: '1分钟请求热U',
+  k_ip_5_sum: '1分钟回源热U',
+  k_server_1_sum: '站点1分钟',
+  k_ip_400_sum: '1分钟异常数',
+  k_ip_404_sum: '1分钟404数',
+  k_herd_cookies_success_sum: '随机验证成功数',
+
+  k_server_5s_sum: '5秒请求数',
+  k_upstream_ip: '回源IP',
+
+  k_ip_content_type_info: '文件类型数',
+  l_upstream_status: '回源状态',
+  k_request_length: '请求长度',
+  k_body_length: '内容长度',
+  k_exten: '后缀',
+  k_referer: 'Referer',
+  k_verify_fail_sum: '人机验证失败',
+  k_ip_join_time: 'IP首次时间',
+  k_ip_cache_hit_sum: 'IP缓存数',
+  k_ip_method_type_info: '请求类型数',
+  k_ip_url_type_info: 'URL类型数',
+  l_out_size: '输出大小',
+  l_server_in_byte: '站点流入',
+  l_server_out_byte: '站点流出',
+  ip_timeout_sum: 'IP超时数',
+  ip_uri_n_sum: 'URI频率数',
+  s_port: '请求端口',
+  k_scheme: '协议'
+}
+
+export const kColumnDefault = [
+  'k_ip',
+  'k_host',
+  'http_host',
+  'k_method',
+  'k_new_uri',
+  'ip_cookie_names',
+  'k_user_agent',
+  'k_geoip',
+  'l_return_code',
+  'k_ip_total',
+  'k_ip_1_sum',
+  'k_server_5_sum',
+  'k_ip_5_sum',
+  'k_herd_cookies_success_sum',
+  'k_server_5s_sum',
+  'k_upstream_ip',
+  'k_scheme'
+]
+
+export const kColumnWidth = {
+  k_ip: 120,
+  k_host: 120,
+  k_new_uri: 150,
+  k_user_agent: 150,
+  k_referer: 150,
+  k_ip_404_sum: 100,
+  k_herd_cookies_success_sum: 120,
+  k_verify_fail_sum: 100,
+  k_method: 70,
+  k_geoip: 70,
+  l_return_code: 60,
+  l_upstream_status: 90,
+  k_request_length: 70,
+  k_exten: 60,
+  l_server_in_byte: 100,
+  l_server_out_byte: 100,
+  k_ip_5_sum: 115,
+  k_server_5_sum: 115,
+  k_upstream_ip: 150,
+  http_host: 150
+}
+
+export const kTips = {
+  l_upstream_status: [
+    '1 = 未命中（MISS）',
+    '2 = 绕过（BYPASS）',
+    '3 = 已过期（EXPIRED）',
+    '4 = 已失效（STALE）',
+    '5 = 正在更新（UPDATING）',
+    '6 = 重新验证（REVALIDATED）',
+    '7 = 命中（HIT）',
+    '8 = 稀缺（SCARCE）'
+  ],
+  k_ip_5_sum: ['IP近1分钟回源热点URL命中数'],
+  k_server_5_sum: ['IP近1分钟请求热点URL命中数']
+}

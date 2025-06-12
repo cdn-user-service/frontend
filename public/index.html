@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <meta id="description" name="description" content="" />
+    <meta id="keywords" name="keywords" content="" />
+    <title></title>
+
+    <link rel="icon" href="" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%= BASE_URL %>css/preloader.css"
+    />
+    <script src="<%= BASE_URL %>config/index.js"></script>
+    <script src="<%= BASE_URL %>js/preloader.js"></script>
+  </head>
+
+  <body class="mytable-scrollbar">
+    <div id="preloader">
+      <div class="ants-spinner-box">
+        <div class="ants-spinner"></div>
+        <div class="ants-spinner-text">
+          - <strong><i id="preloaderText"></i></strong> -
+          <script>
+            document.getElementById('preloaderText').innerText =
+              window.localStorage.getItem('webName') ||
+              'Content Delivery Network'
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+
+    <div id="app"></div>
+
+    <!-- 引入本地资源 -->
+    <script src="<%= BASE_URL %>js/vue.min.js"></script>
+    <script src="<%= BASE_URL %>js/vue-router.min.js"></script>
+    <script src="<%= BASE_URL %>js/element.js"></script>
+    <!-- <script src="<%= BASE_URL %>js/echarts.min.js"></script> -->
+    <script src="<%= BASE_URL %>js/xlsx.core.min.js"></script>
+  </body>
+</html>
