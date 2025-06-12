@@ -1,0 +1,330 @@
+// src/components/layout/Layout.css  
+.layout-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: var(--bg-base);
+    gap: 1rem;
+    overflow: hidden;
+
+    .layout-header {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0rem 1.5rem;
+        // margin: 0.7rem 0;
+        // background-color: var(--bg-under);
+        // border-radius: 0.5rem;
+        border-bottom: 1px solid var(--border-base);
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+    }
+
+    .layout-sidebar {
+        transition: all 0.3s ease;
+        color: var(--text-under);
+        background-color: var(--bg-under);
+        // border: 1px solid red;
+
+        &.hidden {
+            display: none;
+        }
+
+        .sidebar-container {
+            height: 100%;
+            position: relative;
+            // background-color: var(--bg-overlay);
+            transition: width 0.3s ease;
+            display: flex;
+            flex-direction: column;
+
+            &.collapsed {
+                width: 60px;
+            }
+
+            &.expanded {
+                width: 200px;
+            }
+
+            .sidebar-header {
+                height: 60px;
+                flex-shrink: 0;
+                display: flex;
+                // justify-content: center;
+                align-items: center;
+                // justify-content: space-between;
+                margin: 1.5rem 1rem;
+
+                &.collapsed {
+                    justify-content: center;
+
+                    &:hover .default-icon {
+                        display: none;
+                    }
+
+                    &:hover .hover-icon {
+                        display: flex;
+                    }
+                }
+
+                &.expanded {
+                    padding: 1rem;
+                }
+
+                .sidebar-title {
+                    margin-left: 1rem;
+                    font-size: 1.25rem;
+                    font-weight: bold;
+                }
+
+            }
+
+            .sidebar-menu {
+                display: flex;
+                flex-direction: column;
+                // justify-content: center;
+                align-items: center;
+                gap: 2px;
+                flex-grow: 1;
+                flex: 1;
+                overflow-y: auto;
+                padding: 0 1rem;
+
+                .menu-section {
+                    width: 100%;
+                    // margin: 0 0.6rem;
+
+                    &.active {
+                        .menu-wrapper {
+                            &.expanded {
+                                background-color: var(--theme-surface);
+                                font-weight: 600;
+                            }
+
+                            &.collapsed {
+                                color: var(--theme-under);
+                            }
+                        }
+                    }
+                }
+
+                .menu-wrapper {
+                    display: flex;
+                    align-items: center;
+                    // justify-content: space-between;
+                    width: 100%;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    position: relative;
+                    white-space: nowrap;
+                    border-radius: 4px;
+                    // border: 1px solid red;
+                    padding: 0.7rem 0;
+
+                    &.collapsed {
+                        // padding: 2px;
+                        justify-content: center;
+
+                        &:hover {
+                            color: var(--theme-under);
+                        }
+                    }
+
+                    &.expanded {
+                        // padding: 0 1rem;
+                        padding-left: 1rem;
+
+                        &:hover {
+                            background-color: var(--theme-surface);
+                        }
+                    }
+                }
+
+                .menu-list {
+                    display: flex;
+                    flex-direction: column;
+                    // gap: 1.5rem;
+                    // margin-left: 2rem;
+
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        cursor: pointer;
+                        transition: background-color 0.2s;
+                        white-space: nowrap;
+                        text-decoration: none;
+                        color: inherit;
+                        border-radius: 4px;
+                        // border: 1px solid red;
+                        padding: 0.7rem 0;
+                        padding-left: 2rem;
+
+
+                        &:hover {
+                            background-color: var(--theme-surface);
+                        }
+
+                        &.active {
+                            background-color: var(--theme-surface);
+
+                        }
+                    }
+                }
+
+                .menu-icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 20px;
+                    height: 20px;
+                    font-size: 16px;
+                    flex-shrink: 0;
+                }
+
+                .menu-title {
+                    flex: 1;
+                    white-space: nowrap;
+                    font-size: 14px;
+                    padding-left: 1rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    // margin: 0.7rem 0;
+                }
+
+                .menu-arrow {
+                    margin-left: auto;
+                    font-size: 12px;
+                    color: #999;
+                }
+            }
+        }
+    }
+
+    .layout-content {
+        display: flex;
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        // margin: 1rem;
+        // gap: 1rem;
+        background-color: var(--bg-under);
+
+
+    }
+
+    .layout-main {
+        display: flex;
+        flex: 1;
+        width: 100%;
+        overflow-y: auto;
+        border-radius: 0.5rem;
+        // background-color: var(--bg-under);
+
+        // border: 1px solid red;
+        .main-container {
+            flex: 1;
+            // display: flex;
+            flex-direction: column;
+
+            // .main-content {
+            //     // display: flex;
+            //     gap: 1rem;
+            // }
+        }
+
+
+        .layout-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            // border-top: 1px solid var(--border-base);
+            color: var(--text-surface);
+            padding: 10px 24px;
+        }
+
+    }
+
+    .mobile-shadow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999998;
+        background-color: rgba(0, 0, 1, 0.5);
+    }
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.default-icon {
+    display: inline-flex;
+}
+
+.hover-icon {
+    display: none;
+}
+
+
+// 添加动画类
+.animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+@keyframes lightSpeedIn {
+    from {
+        transform: translate3d(-100%, 0, 0) skewX(30deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: skewX(-20deg);
+        opacity: 1;
+    }
+
+    80% {
+        transform: skewX(5deg);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.lightSpeedIn {
+    animation-name: lightSpeedIn;
+    animation-timing-function: ease-out;
+}
+
+@keyframes lightSpeedOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        transform: translate3d(-100%, 0, 0) skewX(-30deg);
+        opacity: 0;
+    }
+}
+
+.lightSpeedOut {
+    animation-name: lightSpeedOut;
+    animation-timing-function: ease-in;
+}

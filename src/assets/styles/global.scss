@@ -1,0 +1,69 @@
+@use './themes.scss' as theme;
+@use './layout.scss' as *;
+@use './pages.scss' as *;
+@use './components.scss' as *;
+// @use './components.scss' as *;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+
+}
+
+html,
+body,
+#root,
+#app {
+    height: 100%;
+    font-family: system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.App {
+    height: 100%;
+    background-color: var(--bg-base);
+    color: var(--text-base);
+}
+
+/* 可选滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-base);
+    border-radius: 4px;
+}
+
+
+.vertical {
+    flex-direction: column;
+}
+
+.horizontal {
+    flex-direction: row;
+}

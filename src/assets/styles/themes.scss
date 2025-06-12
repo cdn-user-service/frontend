@@ -1,0 +1,29 @@
+:root {
+    --font-size: 1rem;
+}
+
+.theme-light {
+    --bg-base: #f8fafafa;
+    --bg-under: #edf0f1fa;
+    --bg-surface: #e3f0eefa;
+    --theme-base: #adcdd1;
+    --theme-under: #7da6aa;
+    --theme-surface: #adcdd1;
+    --text-base: #141414;
+    --text-under: #5c5c5c;
+    --text-surface: #7f8585;
+    --border-base: #7a929277;
+}
+
+.theme-dark {
+    --bg-base: #262727fa;
+    --bg-under: #3c4140fa;
+    --bg-surface: #5c5f5dfa;
+    --theme-base: #ecf7f4;
+    --theme-under: #e7e7e7;
+    --theme-surface: #ececec;
+    --text-base: #cfcfcf;
+    --text-under: #5c5c5c;
+    --text-surface: #c8cccc;
+    --border-base: #717777;
+}
