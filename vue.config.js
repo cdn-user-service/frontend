@@ -55,20 +55,6 @@ module.exports = {
               // maxSize: 10000 // 最大块大小
               maxInitialRequests: Infinity,
               minSize: 20000
-              // cacheGroups: {
-              //   vendor: {
-              //     test: /[\\/]node_modules[\\/]/,
-              //     name(module) {
-              //       // get the name. E.g. node_modules/packageName/not/this/part.js
-              //       // or node_modules/packageName
-              //       const packageName = module.context.match(
-              //         /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-              //       )[1]
-              //       // npm package names are URL-safe, but some servers don't like @ symbols
-              //       return `npm.${packageName.replace('@', '')}`
-              //     }
-              //   }
-              // }
             },
             // Tree Shaking，减少未使用的代码
             usedExports: true,
@@ -131,7 +117,9 @@ module.exports = {
         ...(!debug
           ? [
             // 打包分析
-            new BundleAnalyzerPlugin(),
+            new BundleAnalyzerPlugin({
+              analyzerMode: 'static' // 'static'模式会生成一个 report.html 文件在输出目录 (dist)
+            })
 
             // CSS 代码 tree shaking优化
             // new PurgeCssPlugin({
