@@ -36,16 +36,29 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
         
-    - name: Build and Push Docker Image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+    - name: Build Docker Image
+      run: |
+        echo "🔨 Starting Docker build..."
+        echo "Available resources:"
+        df -h
+        free -h
+        
+        # Build with no cache and verbose output
+        docker build --no-cache --progress=plain \
+          -t ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest . \
+          2>&1 | tee build.log
+          
+        echo "✅ Docker build completed"
+        echo "Image size:"
+        docker images ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest
+        
+    - name: Push Docker Image
+      run: |
+        echo "📤 Pushing Docker image..."
+        docker push ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest
+        echo "✅ Docker push completed successfully"
         
     - name: Verify Push
       run: |
         echo "✅ Docker image pushed successfully"
-        echo "Image: ${{ secrets.DOCKER_USERNAME }}
+        echo "Image: ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest"
