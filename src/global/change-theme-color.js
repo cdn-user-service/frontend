@@ -1,5 +1,3 @@
-import client from 'webpack-theme-color-replacer/client'
-import getElementUISeries from 'webpack-theme-color-replacer/forElementUI/getElementUISeries'
 import { themeConfig, lightArr, darkArr } from './colors'
 
 // 主题基本色
@@ -7,14 +5,10 @@ export let curColor = themeConfig.primaryColor
 
 // 动态切换主题色
 export function changeThemeColor(newColor = curColor, newOtherColors = lightArr) {
-    const options = {
-        newColors: themeConfig.getThemeColors(newColor, getElementUISeries,
-            client.varyColor, [...newOtherColors])
-    }
-    return client.changer.changeColor(options, Promise).then(t => {
-        curColor = newColor
-        localStorage.setItem('theme_color', curColor)
-    })
+    curColor = newColor
+    localStorage.setItem('theme_color', curColor)
+    // 这里可以添加自定义的主题切换逻辑
+    return Promise.resolve()
 }
 
 // 主题初始化

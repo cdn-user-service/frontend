@@ -1,5 +1,5 @@
 # Build 
-FROM node:18 AS build-stage
+FROM node:16.20.0 AS build-stage
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .

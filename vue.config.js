@@ -2,9 +2,9 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const path = require('path')
 
 // 自定义主题插件
-const ThemeColorReplacer = require('webpack-theme-color-replacer')
-const forElementUI = require('webpack-theme-color-replacer/forElementUI')
-const { themeConfig, lightArr } = require('./src/global/colors')
+// const ThemeColorReplacer = require('webpack-theme-color-replacer')
+// const forElementUI = require('webpack-theme-color-replacer/forElementUI')
+// const { themeConfig, lightArr } = require('./src/global/colors')
 
 // 多项目分别打包
 const CLI_CONFIG = require('./cli-config')
@@ -48,50 +48,50 @@ module.exports = {
     return {
       ...(!debug
         ? {
-            optimization: {
-              // 代码分离
-              splitChunks: {
-                chunks: 'all',
-                // maxSize: 10000 // 最大块大小
-                maxInitialRequests: Infinity,
-                minSize: 20000
-                // cacheGroups: {
-                //   vendor: {
-                //     test: /[\\/]node_modules[\\/]/,
-                //     name(module) {
-                //       // get the name. E.g. node_modules/packageName/not/this/part.js
-                //       // or node_modules/packageName
-                //       const packageName = module.context.match(
-                //         /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                //       )[1]
-                //       // npm package names are URL-safe, but some servers don't like @ symbols
-                //       return `npm.${packageName.replace('@', '')}`
-                //     }
-                //   }
-                // }
-              },
-              // Tree Shaking，减少未使用的代码
-              usedExports: true,
-              sideEffects: false
+          optimization: {
+            // 代码分离
+            splitChunks: {
+              chunks: 'all',
+              // maxSize: 10000 // 最大块大小
+              maxInitialRequests: Infinity,
+              minSize: 20000
+              // cacheGroups: {
+              //   vendor: {
+              //     test: /[\\/]node_modules[\\/]/,
+              //     name(module) {
+              //       // get the name. E.g. node_modules/packageName/not/this/part.js
+              //       // or node_modules/packageName
+              //       const packageName = module.context.match(
+              //         /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+              //       )[1]
+              //       // npm package names are URL-safe, but some servers don't like @ symbols
+              //       return `npm.${packageName.replace('@', '')}`
+              //     }
+              //   }
+              // }
             },
+            // Tree Shaking，减少未使用的代码
+            usedExports: true,
+            sideEffects: false
+          },
 
-            module: {
-              rules: [
-                {
-                  test: /\.js$/,
-                  use: 'thread-loader'
-                },
-                {
-                  // 如果项目源码中只有 js 文件就不要写成 /\.jsx?$/，提升正则表达式性能
-                  test: /\.js$/,
-                  // babel-loader 支持缓存转换出的结果，通过 cacheDirectory 选项开启
-                  use: ['babel-loader?cacheDirectory'],
-                  // 只对项目根目录下的 src 目录中的文件采用 babel-loader
-                  include: path.resolve(__dirname, 'src')
-                }
-              ]
-            }
+          module: {
+            rules: [
+              {
+                test: /\.js$/,
+                use: 'thread-loader'
+              },
+              {
+                // 如果项目源码中只有 js 文件就不要写成 /\.jsx?$/，提升正则表达式性能
+                test: /\.js$/,
+                // babel-loader 支持缓存转换出的结果，通过 cacheDirectory 选项开启
+                use: ['babel-loader?cacheDirectory'],
+                // 只对项目根目录下的 src 目录中的文件采用 babel-loader
+                include: path.resolve(__dirname, 'src')
+              }
+            ]
           }
+        }
         : null),
 
       resolve: {
@@ -112,72 +112,72 @@ module.exports = {
       },
 
       plugins: [
-        // 生成仅包含颜色的替换样式（主题色等）
-        new ThemeColorReplacer({
-          fileName: 'css/theme-colors.[contenthash:8].css',
-          matchColors: themeConfig.getThemeColors(
-            themeConfig.primaryColor,
-            forElementUI.getElementUISeries,
-            ThemeColorReplacer.varyColor,
-            [...lightArr]
-          ),
-          changeSelector: forElementUI.changeSelector,
-          isJsUgly: debug ? undefined : true,
-          // 选择将css文本注入到 js 文件，无需再下载css，提升了首次撤换主题的速度
-          injectCss: true
-          // isJsUgly: true
-        }),
+        // // 生成仅包含颜色的替换样式（主题色等）
+        // new ThemeColorReplacer({
+        //   fileName: 'css/theme-colors.[contenthash:8].css',
+        //   matchColors: themeConfig.getThemeColors(
+        //     themeConfig.primaryColor,
+        //     forElementUI.getElementUISeries,
+        //     ThemeColorReplacer.varyColor,
+        //     [...lightArr]
+        //   ),
+        //   changeSelector: forElementUI.changeSelector,
+        //   isJsUgly: debug ? undefined : true,
+        //   // 选择将css文本注入到 js 文件，无需再下载css，提升了首次撤换主题的速度
+        //   injectCss: true
+        //   // isJsUgly: true
+        // }),
 
         ...(!debug
           ? [
-              // 打包分析
-              new BundleAnalyzerPlugin(),
+            // 打包分析
+            new BundleAnalyzerPlugin(),
 
-              // CSS 代码 tree shaking优化
-              // new PurgeCssPlugin({
-              //   path: glob.sync(`${path.resolve('./src')}/**/*`, {
-              //     nodir: true
-              //   }) // src里面的所有文件
-              //   // satelist: function () {
-              //   //   return {
-              //   //     standard: ['html']
-              //   //   }
-              //   // }
-              // }),
+            // CSS 代码 tree shaking优化
+            // new PurgeCssPlugin({
+            //   path: glob.sync(`${path.resolve('./src')}/**/*`, {
+            //     nodir: true
+            //   }) // src里面的所有文件
+            //   // satelist: function () {
+            //   //   return {
+            //   //     standard: ['html']
+            //   //   }
+            //   // }
+            // }),
 
-              // JS代码压缩
-              new TerserPlugin({
-                // 电脑cpu核数-1，使用多进程并发运行提高构建的速度，默认值是true，并发运行的默认数量： os.cpus().length - 1
-                parallel: true,
-                // extractComments：默认值为true，表示会将注释抽取到一个单独的文件中，开发阶段，我们可设置为 false ，不保留注释
-                extractComments: false
-              })
+            // JS代码压缩
+            new TerserPlugin({
+              // 电脑cpu核数-1，使用多进程并发运行提高构建的速度，默认值是true，并发运行的默认数量： os.cpus().length - 1
+              parallel: true,
+              // extractComments：默认值为true，表示会将注释抽取到一个单独的文件中，开发阶段，我们可设置为 false ，不保留注释
+              extractComments: false
+            })
 
-              // CSS代码压缩
-              // new CssMinimizerPlugin({
-              //   parallel: true
-              // }),
+            // CSS代码压缩
+            // new CssMinimizerPlugin({
+            //   parallel: true
+            // }),
 
-              // HTML压缩
-              // new HtmlWebpackPlugin({
-              //   minify: {
-              //     minifyCSS: false, // 是否压缩css
-              //     collapseWhitespace: false, // 是否折叠空格
-              //     removeComments: true // 是否移除注释
-              //   }
-              // }),
+            // HTML压缩
+            // new HtmlWebpackPlugin({
+            //   minify: {
+            //     minifyCSS: false, // 是否压缩css
+            //     collapseWhitespace: false, // 是否折叠空格
+            //     removeComments: true // 是否移除注释
+            //   }
+            // }),
 
-              // 检测网页更新并通知用户刷新
-              // new WebUpdateNotificationPlugin({
-              //   versionType: 'build_timestamp',
-              //   logVersion: true,
-              //   checkInterval: 0,
-              //   // injectFileBase: './',
-              //   notificationConfig: {
-              //     primaryColor: '#177DFF'
-              //   }
-              // })
-            ]
+            // 检测网页更新并通知用户刷新
+            // new WebUpdateNotificationPlugin({
+            //   versionType: 'build_timestamp',
+            //   logVersion: true,
+            //   checkInterval: 0,
+            //   // injectFileBase: './',
+            //   notificationConfig: {
+            //     primaryColor: '#177DFF'
+            //   }
+            // })
+          ]
           : [])
       ]
     }
@@ -204,7 +204,7 @@ module.exports = {
     })
 
     // 开发模式
-    config.when(debug, (config) => {})
+    config.when(debug, (config) => { })
   },
 
   // 本地代理
