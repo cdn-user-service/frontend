@@ -8,6 +8,8 @@ const path = require('path')
 
 // 多项目分别打包
 const CLI_CONFIG = require('./cli-config')
+const currentProject = process.env.PROJECT || 'cdn_users_v2';
+const config = CLI_CONFIG[currentProject]
 
 // 检测网页更新并通知用户刷新
 // const {
@@ -35,11 +37,11 @@ const debug = process.env.NODE_ENV === 'development'
 
 module.exports = {
   // 设置打包文件相对路径
-  // publicPath: CLI_CONFIG.PublicPath,
+  // publicPath: config.PublicPath,
   publicPath: './',
   // 设置打包文件输出路径
-  outputDir: CLI_CONFIG.OutputDir,
-  pages: CLI_CONFIG.pages,
+  outputDir: config.OutputDir,
+  pages: config.pages,
   // 去掉 .map 文件
   productionSourceMap: debug,
   parallel: true, // 是否并行打包
@@ -198,7 +200,7 @@ module.exports = {
   // 本地代理
   devServer: {
     // 请求地址的端口号
-    port: CLI_CONFIG.port,
+    port: config.port,
     proxy: {
       // 'demo'是请求地址中，以demo开头都适用这个
       '/cdn_api': {
