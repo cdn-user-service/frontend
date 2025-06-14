@@ -1,11 +1,12 @@
-# 构建阶段
-FROM node:18 as build-stage
+# Build 
+FROM node:18 AS build-stage
 WORKDIR /app
-COPY frontend/ ./
+COPY pom.xml .
+COPY src ./src
+COPY . .
 RUN npm install && npm run build:cdn_users
 
-# 运行阶段
+# Production AS production-stage
 FROM nginx:stable-alpine
 COPY --from=build-stage /app/dist/ /usr/share/nginx/html
-COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
