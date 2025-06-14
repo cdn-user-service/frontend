@@ -7,9 +7,9 @@ const path = require('path')
 // const { themeConfig, lightArr } = require('./src/global/colors')
 
 // 多项目分别打包
-const CLI_CONFIG = require('./cli-config')
-const currentProject = process.env.PROJECT || 'cdn_users_v2';
-const config = CLI_CONFIG[currentProject]
+const ALL_CONFIG = require('./cli-config')
+const projectName = process.env.RUNNAME || 'cdn_users_v2';
+const config = ALL_CONFIG[projectName]
 
 // 检测网页更新并通知用户刷新
 // const {

@@ -79,5 +79,6 @@ const config = {
 // console.log(process.env.RUNNAME)
 
 // process.env.RUNNAME 为进程的名称，也就是要打包的项目名称
-const configObj = config[process.env.RUNNAME]
-module.exports = configObj
+// const configObj = config[process.env.RUNNAME]
+// module.exports = configObj
+module.exports = config
