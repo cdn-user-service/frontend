@@ -1,12 +1,12 @@
+@use './transition.scss' as *;
+@use './element.scss' as *;
+@use './global.scss' as *;
+@use './reset.scss' as *;
+@use './ants.scss' as *;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import './transition.scss';
-@import './element.scss';
-@import './global.scss';
-@import './reset.scss';
-@import './ants.scss';
 
 // 主题切换 障眼法
 $mode: () !default;

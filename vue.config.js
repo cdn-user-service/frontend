@@ -46,6 +46,13 @@ module.exports = {
   productionSourceMap: debug,
   parallel: true, // 是否并行打包
   // webpack插件
+  css: {
+    loaderOptions: {
+      sass: {
+        additionalData: `@use "@/assets/css/variables.scss" as *;`
+      }
+    }
+  },
   configureWebpack: (config) => {
     return {
       ...(!debug
