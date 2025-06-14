@@ -119,7 +119,7 @@ module.exports = {
             // 打包分析
             new BundleAnalyzerPlugin({
               analyzerMode: 'static' // 'static'模式会生成一个 report.html 文件在输出目录 (dist)
-            })
+            }),
 
             // CSS 代码 tree shaking优化
             // new PurgeCssPlugin({
