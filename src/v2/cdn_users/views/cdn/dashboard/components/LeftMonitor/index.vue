@@ -580,6 +580,53 @@ export default {
             }
           }
         }
+
+        // aggs: {
+        //   0: {
+        //     nested: {
+        //       path: 'v'
+        //     },
+        //     aggs: {
+        //       1: {
+        //         filter: {
+        //           terms: {
+        //             'v.s': domains
+        //           }
+        //         },
+        //         aggs: {
+        //           2: {
+        //             date_histogram: {
+        //               field: 'v.timestamp',
+        //               fixed_interval: step,
+        //               time_zone: 'Asia/Shanghai',
+        //               min_doc_count: 1
+        //             },
+        //             aggs: {
+        //               // 流入
+        //               'flow-in': {
+        //                 sum: {
+        //                   field: 'v.i'
+        //                 }
+        //               },
+        //               // 流出
+        //               'flow-out': {
+        //                 sum: {
+        //                   field: 'v.o'
+        //                 }
+        //               },
+        //               // 请求数
+        //               'request-count': {
+        //                 sum: {
+        //                   field: 'v.r'
+        //                 }
+        //               }
+        //             }
+        //           }
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
       }
 
       return queryData

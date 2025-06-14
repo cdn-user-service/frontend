@@ -20,11 +20,6 @@ const whiteList = [
   '/register-binding'
 ]
 
-// 开发模式：直接设置token，跳过登录
-if (process.env.NODE_ENV === 'development') {
-  setToken('dev_token_for_testing', 'dev_user')
-}
-
 // 挂在路由导航守卫 暂未有token
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -36,7 +31,7 @@ router.beforeEach((to, from, next) => {
       // 假设首页路径是 '/console'，根据您项目的实际情况可能需要调整
       return next('/console')
     }
-
+    
     // 如果没有加载过菜单，先加载菜单
     if (!(store.state.permission.addRouters || []).length) {
       console.log('开发模式：没有菜单，加载菜单')
@@ -44,7 +39,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
       return
     }
-
+    
     // 其他页面直接放行
     next()
     return
@@ -67,7 +62,6 @@ router.beforeEach((to, from, next) => {
     console.log('没有菜单，加载菜单')
     loadMenus(next, to)
     NProgress.done()
-    return
   }
 
   // 如果为管理员直接跳转过来的，并且前往过来的页面为管理端允许跳转的页面，不验证token,直接放行
@@ -80,12 +74,6 @@ router.beforeEach((to, from, next) => {
   // 从DNS平台跳转过来的
   if (to.query.access_token) {
     doLoginByaccess(next, to.query.access_token)
-    return
-  }
-
-  // 开发模式下跳过登录验证
-  if (process.env.NODE_ENV === 'development') {
-    next()
     return
   }
 
@@ -141,7 +129,7 @@ async function doLoginByaccess(next, accessToken) {
     setToken('dev_token_for_testing', 'dev_user')
     return next()
   }
-
+  
   try {
     const { data: res } = await loginByaccess({
       access_token: accessToken
