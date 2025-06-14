@@ -8,7 +8,7 @@ const path = require('path')
 
 // 多项目分别打包
 const ALL_CONFIG = require('./cli-config')
-const projectName = process.env.RUNNAME || 'cdn_users_v2';
+const projectName = process.env.RUNNAME || 'cdn_users_v2'
 const config = ALL_CONFIG[projectName]
 
 // 检测网页更新并通知用户刷新

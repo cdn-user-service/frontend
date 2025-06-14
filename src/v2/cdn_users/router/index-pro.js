@@ -23,13 +23,11 @@ const whiteList = [
 // 挂在路由导航守卫 暂未有token
 router.beforeEach((to, from, next) => {
   NProgress.start()
-
  
   if (process.env.VUE_APP_USE_MOCK === 'true') {
     next()
     return 
   }
- 
 
   // 优化，切换路由前中断前面所有请求，这里做取消动作
   if (Vue.$httpRequestList.length > 0) {

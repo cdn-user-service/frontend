@@ -137,7 +137,6 @@ export default {
       userinfo: {
         userId: '',
         username: '',
-        whiteIpStatus: 0,
         createTime: '',
         email: '',
         mobile: '',

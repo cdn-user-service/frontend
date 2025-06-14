@@ -1,7 +1,12 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    amd: true
+  },
+  globals: {
+    $: 'readonly',
+    define: 'readonly'
   },
   extends: [
     'plugin:vue/essential',

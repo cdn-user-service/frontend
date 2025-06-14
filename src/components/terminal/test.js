@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 $(function() {
   // Custom theme to match style of xterm.js logo
   var baseTheme = {
@@ -145,7 +147,7 @@ $(function() {
       provideLinks(bufferLineNumber, callback) {
         switch (bufferLineNumber) {
           case 2:
-            callback([
+            callback(null, [
               {
                 text: 'VS Code',
                 range: { start: { x: 28, y: 2 }, end: { x: 34, y: 2 } },
@@ -173,7 +175,7 @@ $(function() {
             ])
             return
           case 8:
-            callback([
+            callback(null, [
               {
                 text: 'WebGL renderer',
                 range: { start: { x: 54, y: 8 }, end: { x: 67, y: 8 } },
@@ -187,7 +189,7 @@ $(function() {
             ])
             return
           case 14:
-            callback([
+            callback(null, [
               {
                 text: 'Links',
                 range: { start: { x: 45, y: 14 }, end: { x: 49, y: 14 } },
@@ -220,7 +222,7 @@ $(function() {
             ])
             return
           case 15:
-            callback([
+            callback(null, [
               {
                 text: 'typed API',
                 range: { start: { x: 45, y: 15 }, end: { x: 53, y: 15 } },
@@ -280,12 +282,12 @@ $(function() {
     },
     loadtest: {
       f: () => {
-        let testData = []
+        const testData = []
         let byteCount = 0
         for (let i = 0; i < 50; i++) {
-          let count = 1 + Math.floor(Math.random() * 79)
+          const count = 1 + Math.floor(Math.random() * 79)
           byteCount += count + 2
-          let data = new Uint8Array(count + 2)
+          const data = new Uint8Array(count + 2)
           data[0] = 0x0a // \n
           for (let i = 1; i < count + 1; i++) {
             data[i] = 0x61 + Math.floor(Math.random() * (0x7a - 0x61))
@@ -295,7 +297,7 @@ $(function() {
           data[data.length - 1] = 0x0d // \r
           testData.push(data)
         }
-        let start = performance.now()
+        const start = performance.now()
         for (let i = 0; i < 1024; i++) {
           for (const d of testData) {
             term.write(d)
@@ -303,8 +305,8 @@ $(function() {
         }
         // Wait for all data to be parsed before evaluating time
         term.write('', () => {
-          let time = Math.round(performance.now() - start)
-          let mbs = ((byteCount / 1024) * (1 / (time / 1000))).toFixed(2)
+          const time = Math.round(performance.now() - start)
+          const mbs = ((byteCount / 1024) * (1 / (time / 1000))).toFixed(2)
           term.write(
             `\n\r\nWrote ${byteCount}kB in ${time}ms (${mbs}MB/s) using the ${
               isWebglEnabled ? 'webgl' : 'canvas'

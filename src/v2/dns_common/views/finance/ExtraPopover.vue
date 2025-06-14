@@ -38,7 +38,7 @@ export default {
     buySum: {
       type: Number,
       default: 0
-    },
+    }
     // 
   },
   data() {

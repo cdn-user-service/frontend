@@ -207,7 +207,7 @@ export function isJson(value) {
 // 判断是否为对象
 export function isObject(value) {
   return (
-    Object.prototype.toString.call(variable) === '[object Object]' &&
-    variable !== null
+    Object.prototype.toString.call(value) === '[object Object]' &&
+    value !== null
   )
 }

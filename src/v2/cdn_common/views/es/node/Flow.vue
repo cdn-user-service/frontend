@@ -167,9 +167,9 @@ export default {
         const { title, aggs, computed, yAxisLabel } = queryObj[key]
 
         // 加log看数据
-        console.log("🚀 Sending request to ES:", {
+        console.log('🚀 Sending request to ES:', {
           uri: 'metricbeat-*/_search',
-          postData: requestData
+          postData: this.buildQueryData(aggs, key)
         })
 
         try {

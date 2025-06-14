@@ -107,13 +107,12 @@ export default {
           name: 'node-agent',
           type: '节点守护',
           version: '8.0.38',
-          time: '2025-02-13 09:02:01',
+          time: '2025-02-13 09:02:01'
         }
 
       ]
       this.$root.loading = false
       this.total = this.tableData.length
-
 
       // const { data: res } = await getDnsApiList(this.queryInfo)
       // this.$root.loading = false
