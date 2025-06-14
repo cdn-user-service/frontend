@@ -3,8 +3,8 @@ FROM node:16.20.0-alpine AS build-stage
 WORKDIR /app
 
 # Copy package files for better Docker layer caching
+RUN npm ci 
 COPY package*.json ./
-RUN npm ci --only=production --silent
 
 # Copy source code and build
 COPY . .
