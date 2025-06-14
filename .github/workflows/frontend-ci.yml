@@ -4,28 +4,46 @@ on:
   workflow_dispatch:
   push:
     branches: [ main, frontend-vue ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Debug Secrets
-      run: |
-        echo "Checking secrets availability..."
-        if [ -n "${{ secrets.DOCKER_USERNAME }}" ]; then
-          echo "✅ DOCKER_USERNAME is available"
-        else
-          echo "❌ DOCKER_USERNAME is missing"
-        fi
-        if [ -n "${{ secrets.DOCKER_TOKEN }}" ]; then
-          echo "✅ DOCKER_TOKEN is available"
-        else
-          echo "❌ DOCKER_TOKEN is missing"
-        fi
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '16.20.0'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run linting
+      run: npm run lint --if-present
+      
+    - name: Run unit tests
+      run: npm run test:unit --if-present
+      
+    - name: Run build test
+      run: npm run build:cdn_users
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -36,29 +54,32 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
         
-    - name: Build Docker Image
-      run: |
-        echo "🔨 Starting Docker build..."
-        echo "Available resources:"
-        df -h
-        free -h
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=sha,prefix={{branch}}-
         
-        # Build with no cache and verbose output
-        docker build --no-cache --progress=plain \
-          -t ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest . \
-          2>&1 | tee build.log
-          
-        echo "✅ Docker build completed"
-        echo "Image size:"
-        docker images ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
         
-    - name: Push Docker Image
+    - name: Generate summary
       run: |
-        echo "📤 Pushing Docker image..."
-        docker push ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest
-        echo "✅ Docker push completed successfully"
-        
-    - name: Verify Push
-      run: |
-        echo "✅ Docker image pushed successfully"
-        echo "Image: ${{ secrets.DOCKER_USERNAME }}/frontend-cdn-user:latest"
+        echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- **Image**: \`${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "- **Tags**: \`${{ steps.meta.outputs.tags }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
