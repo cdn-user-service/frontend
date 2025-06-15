@@ -5,11 +5,11 @@
       <el-col :span="8" v-for="item in exampleList" :key="item">
         <div
           class="flex example-box"
-          :class="item === onLayoutTheme ? 'active' : ''"
+          :class="item === activeMode ? 'active' : ''"
           v-if="item.split('-')[0] === 'ltr'"
           @click="changeMode(item)"
         >
-          <span class="el-icon-success" v-if="item === onLayoutTheme"></span>
+          <span class="el-icon-success" v-if="item === activeMode"></span>
           <div
             class="example-aside-width example-main-height"
             :class="'aside-bgc-' + item.split('-')[2]"
@@ -28,11 +28,11 @@
 
         <div
           class="example-box"
-          :class="item === onLayoutTheme ? 'active' : ''"
+          :class="item === activeMode ? 'active' : ''"
           v-else
           @click="changeMode(item)"
         >
-          <span class="el-icon-success" v-if="item === onLayoutTheme"></span>
+          <span class="el-icon-success" v-if="item === activeMode"></span>
           <div
             class="example-header-height"
             :class="'header-bgc-' + item.split('-')[1]"
@@ -70,9 +70,7 @@ export default {
         'ltr-dark-dark-light', // 左黑上黑
         'ttb-light-light-light', // 全白
         'ttb-dark-dark-dark' // 全黑
-      ],
-
-      activeMode: this.onLayoutTheme
+      ]
     }
   },
   computed: {
@@ -80,6 +78,9 @@ export default {
     onLayoutTheme() {
       const LAYOUT_THEME = this.layoutTheme
       return `${LAYOUT_THEME.layoutMode}-${LAYOUT_THEME.headerTheme}-${LAYOUT_THEME.asideTheme}-${LAYOUT_THEME.mainTheme}`
+    },
+    activeMode() {
+      return this.onLayoutTheme
     }
   },
   methods: {
