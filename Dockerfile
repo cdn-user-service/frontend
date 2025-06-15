@@ -15,7 +15,7 @@ RUN npm config set fund false && \
 COPY package*.json ./
 
 # 使用npm ci安装依赖，添加缓存优化
-RUN npm ci --only=production --no-audit --no-fund --prefer-offline
+RUN npm ci --no-audit --no-fund --prefer-offline
 
 # Copy source code and build
 COPY . .
