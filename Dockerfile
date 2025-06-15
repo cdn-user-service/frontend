@@ -8,8 +8,7 @@ WORKDIR /app
 RUN apk add --no-cache git
 
 # 设置npm配置以加速下载
-RUN npm config set registry https://registry.npmmirror.com/ && \
-    npm config set fund false && \
+RUN npm config set fund false && \
     npm config set audit false
 
 # Copy package files for better Docker layer caching
