@@ -63,16 +63,19 @@ export default {
   computed: {},
   watch: {
     // 监听粒度变化
-    step: (newStep, oldStep) => {},
+    step(newStep, oldStep) {
+      // 你之前箭头函数是空的，可以根据需要加逻辑
+    },
     // 监听统计时间范围变化
-    time: (newTime, oldTime) => {}
+    time(newTime, oldTime) {
+      // 同上
+    }
   },
   mounted() {},
   methods: {
     /**
      * @description: 返回查询数据
      */
-
     getQueryData() {
       const timeValue = this.$refs.QueryTimeRef.timeValue
       return {
@@ -85,19 +88,15 @@ export default {
         step: this.step
       }
     },
-
     /**
      * @description: 重绘图表
      */
-
     getChart() {
       this.$emit('getChart')
     },
-
     /**
      * @description: 刷新表格
      */
-
     refreshChart() {
       this.$root.loading = true
       this.$emit('getChart')

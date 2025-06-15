@@ -29,6 +29,7 @@
 <script>
 import QueryForm from '../components/QueryForm'
 import QueryNode from '../components/QueryNode'
+
 export default {
   components: {
     QueryForm,
@@ -38,69 +39,34 @@ export default {
     return {
       rootPath: '/cdn/node/monitor/',
       menuList: Object.freeze([
-        {
-          title: '流量监控',
-          path: 'flow'
-        },
-        {
-          title: '带宽监控',
-          path: 'bandwidth'
-        },
-        {
-          title: '请求数',
-          path: 'request'
-        },
-        {
-          title: '连接数',
-          path: 'connect'
-        },
-        {
-          title: '负载情况',
-          path: 'nodeload'
-        },
-        {
-          title: 'CPU监控',
-          path: 'cpu'
-        },
-        {
-          title: '内存监控',
-          path: 'memory'
-        },
-        {
-          title: '磁盘监控',
-          path: 'disk'
-        },
-        {
-          title: '磁盘IO',
-          path: 'diskio'
-        },
-        {
-          title: '网络IO',
-          path: 'networkio'
-        }
+        { title: '流量监控', path: 'flow' },
+        { title: '带宽监控', path: 'bandwidth' },
+        { title: '请求数', path: 'request' },
+        { title: '连接数', path: 'connect' },
+        { title: '负载情况', path: 'nodeload' },
+        { title: 'CPU监控', path: 'cpu' },
+        { title: '内存监控', path: 'memory' },
+        { title: '磁盘监控', path: 'disk' },
+        { title: '磁盘IO', path: 'diskio' },
+        { title: '网络IO', path: 'networkio' }
       ])
     }
   },
   watch: {
     // 监听路由地址的改变
-    '$route.path': (newPath, oldPath) => {
-      // console.log(newPath)
+    '$route.path': function(newPath, oldPath) {
+      // 你可以根据需求取消注释调用 this.getChart()
       // this.getChart()
     }
   },
-  created() {},
-  mounted() {},
-
   methods: {
     /**
      * @description: 获取查询表单数据
      */
-
     getFormData() {
       const formObj = this.$refs.QueryFormRef.getQueryData()
       // 查询节点
       formObj.node = this.getQueryNode()
-
       return formObj
     },
 
@@ -123,12 +89,10 @@ export default {
     /**
      * @description: 绘制图表
      */
-
     getChart() {
       this.$refs.chartMainRef.renderChart()
     }
-  },
-  destroyed() {}
+  }
 }
 </script>
 
