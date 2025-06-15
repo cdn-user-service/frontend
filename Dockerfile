@@ -11,9 +11,7 @@ RUN npm config set fund false && \
 # Copy package files for better Docker layer caching
 COPY package*.json ./
 
-# [优化点 2] 使用BuildKit的缓存挂载来优化npm ci的缓存
-# `target` 指定了npm将缓存写入的目录。BuildKit会将其挂载为一个可缓存的卷。
-# 这会极大地提高npm包的安装速度，特别是在多次构建时。
+# optimize cache
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --no-audit --no-fund --prefer-offline
 
@@ -21,7 +19,7 @@ RUN --mount=type=cache,target=/root/.npm \
 # 当源代码发生变化时，这一层及之后的层缓存会失效。
 COPY . .
 
-# 构建项目
+# build
 RUN npm run build:cdn_users
 
 # Production stage  
@@ -44,16 +42,7 @@ RUN addgroup -g 1001 -S appuser && \
     chown -R appuser:appuser /var/log/nginx && \
     chown -R appuser:appuser /etc/nginx/conf.d
 
-# [优化点 3] 简化nginx pid文件处理：
-# 当nginx以“daemon off;”在前台运行时，通常不会创建pid文件，
-# 或者pid文件路径可以在nginx配置中指定为一个非特权用户可写的地方。
-# 原始的`touch`和`chown`可能不是必须的，但为了兼容性，如果你的Nginx配置
-# 确实需要这个文件，且放在`/var/run`下，保留此chown是合理的。
-# 考虑到安全，让appuser拥有/var/run/nginx.pid的权限是正确的做法，
-# 如果Nginx确实尝试在那里创建它。
-# 简化方式（如果Nginx不强制创建PID文件）：可以删除这两行，
-# 并在default.conf中明确指定pid文件路径（如果需要的话）。
-# 但为了保持和原有逻辑的兼容性，我们暂时保留它。
+# optimize cache 简化nginx pid文件处理：
 RUN touch /var/run/nginx.pid && \
     chown -R appuser:appuser /var/run/nginx.pid
 
