@@ -10,6 +10,8 @@ import 'nprogress/nprogress.css'
 import { windowTranslateTitle } from '@/utils/i18n'
 import { getToken, removeToken, tokenTips, setToken } from '@/utils/auth'
 
+
+
 const PROCESS_NAME = process.env.VUE_APP_NAME
 // const router = require(`@/v2/${PROCESS_NAME}/router`)
 const {
@@ -51,6 +53,8 @@ axios.defaults.baseURL = baseURL
 
 axios.defaults.headers.common['Cache-Control'] = CacheControl
 
+console.log('[加载 request.js]')
+console.log('我们axios用的url就是：', axios.defaults.baseURL)
 /**
  * @description: 优化，切换路由前中断前面所有请求
  */
@@ -67,7 +71,7 @@ const removePending = config => {
   }
 }
 
-console.log('现在VUE_APP_USE_MOCK是什么：', process.env.VUE_APP_USE_MOCK)
+// console.log('现在VUE_APP_USE_MOCK是什么：', process.env.VUE_APP_USE_MOCK)
 
 // 只前端模式下设置模拟token
 if (process.env.VUE_APP_USE_MOCK === 'true') {
@@ -82,11 +86,15 @@ if (process.env.VUE_APP_USE_MOCK === 'true') {
  *  通过 axios 请求拦截器添加 token， 保证拥有获取数据的权限
  *  在 request 拦截器中，展示年进度条 NProgress.start()
  */
+/**
+ * @description: 请求拦截器 - 修复版本
+ */
 const requestConfig = config => {
-  // NProgress.start()
+  const token = getToken()
+  // console.log('[详细检查] 请求URL:', config.url)
+  // console.log('[详细检查] Token值:', token)
 
   // 这个是 优化，切断页面前中断前面所有请求 通过axios cancelToken 关键代码
-  // removePending(config) // 由于以前写的接口有重复的，暂时不用这个功能
   config.cancelToken = new CancelToken(cancel => {
     Vue.$httpRequestList.push({
       u: config.url + '&' + config.method,
@@ -94,13 +102,35 @@ const requestConfig = config => {
     })
   })
 
-  // 为请求头对象，添加token 验证的Authorization 字段
-  config.headers.token = getToken()
+  // 不需要 token 的接口路径（可继续扩展）
+  const noTokenUrls = [
+    '/login',
+    '/regist',
+    '/kaptcha.jpg',
+    '/captcha.jpg'
+  ]
+
+  const isNoTokenUrl = noTokenUrls.some(url =>
+    config.url.includes(url)
+  )
+
+  // 如果不是不需要 token 的接口，并且token存在，则添加 token
+  if (!isNoTokenUrl && token) {
+    // 修复：使用已经获取的token变量，而不是再次调用getToken()
+    config.headers.token = token
+
+    // 同时尝试标准的Authorization格式，以防后端期望这种格式
+    config.headers.Authorization = `Bearer ${token}`
+
+    // console.log('[设置后] 设置后的token字段:', config.headers.token)
+    // console.log('[设置后] 设置后的Authorization字段:', config.headers.Authorization)
+  } else if (!isNoTokenUrl && !token) {
+    console.warn('[警告] 需要token但token不存在，URL:', config.url)
+  }
 
   // 在最后必须return config
   return config
 }
-
 /**
  * @description: axios响应拦截器
  * @param config 请求配置
@@ -147,6 +177,9 @@ const responseConfig = config => {
   }
 }
 
+// 用于防止重复弹出登录过期提示
+let isTokenExpiredHandling = false
+
 /**
  * @description axios请求拦截器
  */
@@ -158,37 +191,122 @@ axios.interceptors.request.use(requestConfig, error => {
  * @description axios响应拦截器
  */
 axios.interceptors.response.use(
+  // 成功响应处理
   response => responseConfig(response),
   error => {
-     // 只前端模式下处理请求错误
-     if (process.env.VUE_APP_USE_MOCK === 'true') {
-      console.log('只前端模式：拦截到请求错误，返回模拟成功响应')
-      return Promise.resolve({
-        status: 200,
-        data: {
-          code: 1,
-          data: {},
-          message: '只前端模式模拟响应'
-        }
+    const { data, config } = error?.response || {}
+
+    // 只前端模式下模拟成功响应 - 修复了 response 未定义的问题
+    if (process.env.VUE_APP_USE_MOCK === 'true' && data?.code === 401) {
+      console.log('只前端模式：拦截到401响应，已转换为成功响应')
+      data.code = 1
+      return Promise.resolve(error.response) // ✅ 修复：使用 error.response
+    }
+
+    console.log('响应错误:', error)
+
+    // 成功响应直接返回
+    if (data?.code === 1) {
+      return Promise.resolve(error.response)
+    }
+
+    // 检查是否是登录相关接口
+    const isLoginUrl = config?.url && (config.url.includes('/login') || config.url.includes('/regist'))
+
+    // 如果是登录接口返回 401，说明用户名密码错误，直接返回原响应让组件处理
+    if (data?.code === 401 && isLoginUrl) {
+      // 不显示错误信息，让登录组件自己处理
+      return Promise.resolve(error.response)
+    }
+
+    // 其他接口的 401 错误，表示 token 过期
+    if (data?.code === 401 && !isTokenExpiredHandling) {
+      isTokenExpiredHandling = true
+      removeToken()
+
+      tokenTips({
+        title: '登录过期',
+        msg: '登录已过期，您需要重新登录！',
+        okText: '重新登录',
+        type: 2
       })
+
+      // 延迟重置标志，避免快速重复请求时重复弹窗
+      setTimeout(() => {
+        isTokenExpiredHandling = false
+      }, 1000)
+
+      return new Promise(() => { })
     }
 
+    // 其他错误码处理
+    if (data?.code && data.code !== 1) {
+      Vue.prototype.$msg.error(data[messageName] || '请求异常！')
+      // 返回一个标记失败的 resolved Promise，避免错误冒泡
+      return Promise.resolve({ ...error.response, __requestFailed: true })
+    }
+
+    // HTTP状态码错误处理（网络错误等）
     if (axios.isCancel(error)) {
-      // 为了终结promise链 就是实际请求 不会走到.catch(rej=>{});这样就不会触发错误提示之类了。
-      return new Promise(() => {})
+      return new Promise(() => { }) // 取消请求时中断链
     }
-    console.log(error)
-    // console.log(error.response)
-    // console.log(error.response.data)
 
-    const status = error.response.status
-    const data = error.response.data || {}
-    Vue.prototype.$msg.error(
-      `${status}${data.error || ''}-${CODE_MESSAGE[status]}`
-    )
+    const status = error?.response?.status
+    const httpData = error?.response?.data || {}
 
-    // 返回 response 里的错误信息
-    return Promise.reject(error)
+    // 只前端模式下的处理
+    if (process.env.VUE_APP_USE_MOCK === 'true' && status === 401) {
+      console.log('只前端模式：拦截到HTTP 401响应，已转换为成功响应')
+      const mockResponse = {
+        data: { code: 1, message: 'Mock success' },
+        status: 200,
+        config: error.config
+      }
+      return Promise.resolve(mockResponse)
+    }
+
+    // 检查是否是登录相关接口
+    const isLoginUrlHttp = config?.url && (config.url.includes('/login') || config.url.includes('/regist'))
+
+    // 如果是登录接口的 401 错误，说明用户名密码错误，直接返回让组件处理
+    if (status === 401 && isLoginUrlHttp) {
+      // 构造一个标准的响应格式
+      const mockResponse = {
+        data: {
+          code: 401,
+          message: '用户名或密码错误'
+        },
+        status: 200, // 让组件认为请求成功了，但业务逻辑失败
+        config: error.config
+      }
+      return Promise.resolve(mockResponse)
+    }
+
+    // 其他接口的 401 错误，表示 token 过期
+    if (status === 401 && !isTokenExpiredHandling) {
+      isTokenExpiredHandling = true
+      removeToken()
+
+      tokenTips({
+        title: '登录过期',
+        msg: '登录已过期，您需要重新登录！',
+        okText: '重新登录',
+        type: 2
+      })
+
+      // 延迟重置标志
+      setTimeout(() => {
+        isTokenExpiredHandling = false
+      }, 1000)
+
+      return new Promise(() => { })
+    }
+
+    const msg = `${status || '请求失败'}：${httpData.error || CODE_MESSAGE[status] || '未知错误'}`
+    Vue.prototype.$msg.error(msg)
+
+    // 返回一个永远不会resolve的Promise，避免错误冒泡
+    return new Promise(() => { })
   }
 )
 

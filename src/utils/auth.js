@@ -3,6 +3,7 @@ import { windowTranslateTitle } from '@/utils/i18n'
 
 // 指定唯一的key，系统可能会部署在同一个域下面
 const APP_NAME = process.env.VUE_APP_NAME
+console.log('[DEBUG] APP_NAME:', APP_NAME)
 export const TOKEN_KEY = `${APP_NAME}_token`
 export const USER_KEY = `${APP_NAME}_user`
 
@@ -16,10 +17,13 @@ export const isLogin = () => {
 
 export const getToken = () => {
   // 只前端模式下，如果没有token则返回一个开发测试token
-  if (process.env.VUE_APP_USE_MOCK === 'true' && !localStorage.getItem(TOKEN_KEY)) {
-    return 'dev_token_for_testing'
+  const token = localStorage.getItem(TOKEN_KEY)
+
+  if (process.env.VUE_APP_USE_MOCK === 'true' && !token) {
+    token = 'dev_token_for_testing'
   }
-  return localStorage.getItem(TOKEN_KEY)
+  // console.log('[getToken] 获取到的token:', token)
+  return token
 }
 
 export const getUser = () => {
@@ -34,6 +38,10 @@ export const getUser = () => {
 export const setToken = (token = '', username = '') => {
   // sessionStorage.setItem('users', username)
   // sessionStorage.setItem('token', token)
+  console.log('[setToken] writing to localStorage:')
+  console.log('→ USER_KEY:', USER_KEY, 'value:', username)
+  console.log('→ TOKEN_KEY:', TOKEN_KEY, 'value:', token)
+
   localStorage.setItem(USER_KEY, username)
   return localStorage.setItem(TOKEN_KEY, token)
 }

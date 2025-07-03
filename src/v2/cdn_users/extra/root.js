@@ -9,6 +9,11 @@ const { apiRoot, baseURL } = require('../config/net.config')
 
 const powerObj = JSON.parse(localStorage.getItem('cdn_users_power') || '{}')
 
+console.log('cdn_user的 baseURL ', baseURL)
+console.log('cdn_user的 apiRoot ', apiRoot)
+console.log('cdn_user的 getBaseURL() ', getBaseURL())
+
+
 const userinfo = {
   createTime: null,
   userId: null, // 用户ID
@@ -54,7 +59,8 @@ export default {
     // 站点协议加域名
     webRootSite: getBaseURL(),
     // 网站请求根路径
-    webRootApi: (debug ? 'http://localhost:8003' : getBaseURL()) + baseURL,
+    // webRootApi: (debug ? 'http://localhost:8003' : getBaseURL()) + baseURL,
+    webRootApi: 'http://localhost:8081' + apiRoot,
 
     // 当前站点配置信息
     webConfig: {
@@ -187,8 +193,12 @@ export default {
         .then(({ data: res, request, config }) => {
           // this.permission.all = 1
           // 跟请求路径
-          this.webRootApi = request.responseURL.replace(config.url, '')
-
+          if (process.env.NODE_ENV === 'production') {
+            this.webRootApi = request.responseURL.replace(config.url, '')
+          }
+          // console.log('cdn-user的root的responseURL', request.responseURL)
+          // console.log('cdn-user的root的config.url', config.url)
+          // console.log('cdn-user的root的webrootapi', this.webRootApi)
           const webConfig = JSON.parse((res.data || {}).paramValue || '{}')
 
           // 提取公网安备案号

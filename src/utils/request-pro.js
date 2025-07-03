@@ -10,6 +10,7 @@ import 'nprogress/nprogress.css'
 import { windowTranslateTitle } from '@/utils/i18n'
 import { getToken, removeToken, tokenTips } from '@/utils/auth'
 
+console.log('[加载 request-pro.js]')
 const PROCESS_NAME = process.env.VUE_APP_NAME
 // const router = require(`@/v2/${PROCESS_NAME}/router`)
 const {
@@ -145,7 +146,7 @@ axios.interceptors.response.use(
   error => {
     if (axios.isCancel(error)) {
       // 为了终结promise链 就是实际请求 不会走到.catch(rej=>{});这样就不会触发错误提示之类了。
-      return new Promise(() => {})
+      return new Promise(() => { })
     }
     console.log(error)
     // console.log(error.response)

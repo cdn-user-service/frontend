@@ -8,6 +8,7 @@ const projectName = process.env.RUNNAME || 'cdn_users_v2'
 const config = ALL_CONFIG[projectName]
 
 const isDev = process.env.NODE_ENV === 'development'
+console.log('✅ vue.config.js 已加载');
 
 module.exports = {
   publicPath: './',
@@ -26,6 +27,9 @@ module.exports = {
   configureWebpack: (cfg) => {
     const baseConfig = {
       resolve: {
+        alias: {
+          '@': path.resolve(__dirname, 'src')
+        },
         extensions: ['.mjs', '.js', '.json'],
         modules: [path.resolve(__dirname, 'node_modules')]
       },
@@ -92,8 +96,14 @@ module.exports = {
   devServer: {
     port: config.port,
     proxy: {
+      '/test_api': {
+        target: 'https://httpbin.org',
+        changeOrigin: true,
+        pathRewrite: { '^/test_api': '' }
+      },
       '/cdn_api': {
-        target: 'http://localhost:18080',
+        // target: 'http://localhost:18080',
+        target: 'http://localhost:8081',
         changeOrigin: true,
         secure: false,
         ws: true,

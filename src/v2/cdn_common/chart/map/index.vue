@@ -108,9 +108,10 @@ export default {
 
     getChart(form = {}) {
       this.$nextTick(async () => {
-        // 清除 chart 组件，以免造成数据错误
-        if (this.$refs.chartRef.$children.length) {
-          this.$refs.chartRef.$children[0].clear()
+        // 清除 chart 组件修改版
+        const chartComponent = this.$refs.chartRef
+        if (chartComponent && chartComponent.getEchartsInstance) {
+          chartComponent.getEchartsInstance().clear()
         }
 
         const FORM = {

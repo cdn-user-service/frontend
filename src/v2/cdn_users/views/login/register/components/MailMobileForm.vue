@@ -303,6 +303,14 @@ export default {
      * @description: 注册提交
      */
     submitForm() {
+      console.log('准备调用注册接口，参数：', {
+        code: this.form.checkCode,
+        [this.regType]: this.form.username,
+        password: this.form.password,
+        uuid: this.$refs.AntsCaptchaRef && this.$refs.AntsCaptchaRef.random
+      })
+      console.log('regType 的值：', this.regType)
+      console.log('动态字段名测试：', { [this.regType]: this.form.username })
       this.$refs.formRef.validate(async valid => {
         if (!valid) return
 
@@ -315,21 +323,32 @@ export default {
         }
 
         this.btnLoading = true
-
-        const { data: res } = await register({
+        const params = {
           code: this.form.checkCode,
           [this.regType]: this.form.username,
           password: this.form.password,
           uuid: this.$refs.AntsCaptchaRef && this.$refs.AntsCaptchaRef.random // 随机数
-        })
+        }
+        if (this.regType === 'username') {
+          params.username = this.form.username
+        } else if (this.regType === 'mobile') {
+          params.mobile = this.form.username
+        } else if (this.regType === 'mail') {
+          params.mail = this.form.username
+        }
+
+        console.log('最终发送的参数：', params)
+
+        const { data: res } = await register(params)
 
         if (res.code !== 1) {
           this.btnLoading = false
           if (this.regType === 'username') {
             this.$refs.AntsCaptchaRef &&
               this.$refs.AntsCaptchaRef.changeCaptcha()
-            this.form.checkCode = ''
+            // this.form.checkCode = ''
           }
+          this.$message.error(res.msg || '注册失败，请重试')
           return
         }
 

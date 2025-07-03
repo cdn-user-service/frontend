@@ -12,6 +12,16 @@ import { loginByaccess } from '@/v2/cdn_users/api/cdn/account'
 
 NProgress.configure({ showSpinner: true }) // NProgress Configuration
 
+
+// 2. 检查导入的组件
+// console.log('Layout component:', Layout)
+// console.log('ParentView component:', ParentView)
+
+// 3. 检查 store 状态
+console.log('Permission store state:', store.state.permission)
+console.log('Current routes in store:', store.state.permission.addRouters)
+
+
 // 路由白名单，且需要清空token的页面
 const whiteList = [
   '/register',
@@ -31,7 +41,7 @@ router.beforeEach((to, from, next) => {
       // 假设首页路径是 '/console'，根据您项目的实际情况可能需要调整
       return next('/console')
     }
-    
+
     // 如果没有加载过菜单，先加载菜单
     if (!(store.state.permission.addRouters || []).length) {
       console.log('开发模式：没有菜单，加载菜单')
@@ -39,7 +49,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
       return
     }
-    
+
     // 其他页面直接放行
     next()
     return
@@ -110,16 +120,34 @@ router.afterEach(() => {
 })
 
 // 加载菜单路由
+// export function loadMenus(next, to) {
+//   const sidebarRoutes = loadRoutes(routes)
+//   // 动态添加可访问路由
+//   store.dispatch('permission/GenerateRoutes', sidebarRoutes).then(() => {
+//     // 动态添加可访问路由表
+//     sidebarRoutes.forEach(item => {
+//       router.addRoute(item)
+//     })
+//     next(to)
+//   })
+// }
 export function loadMenus(next, to) {
-  const sidebarRoutes = loadRoutes(routes)
-  // 动态添加可访问路由
-  store.dispatch('permission/GenerateRoutes', sidebarRoutes).then(() => {
-    // 动态添加可访问路由表
-    sidebarRoutes.forEach(item => {
-      router.addRoute(item)
+  try {
+    const sidebarRoutes = loadRoutes(routes)
+    // 动态添加可访问路由
+    store.dispatch('permission/GenerateRoutes', sidebarRoutes).then(() => {
+      // 动态添加可访问路由表
+      sidebarRoutes.forEach(item => {
+        if (item && item.path) {  // 只添加这个检查
+          router.addRoute(item)
+        }
+      })
+      next(to)
     })
-    next(to)
-  })
+  } catch (error) {
+    console.error('loadMenus error:', error)
+    next(to)  // 确保即使出错也继续导航
+  }
 }
 
 // 如果是从DNS平台跳转过来的，需要先通过 access_token 进行登录验证
@@ -129,7 +157,7 @@ async function doLoginByaccess(next, accessToken) {
     setToken('dev_token_for_testing', 'dev_user')
     return next()
   }
-  
+
   try {
     const { data: res } = await loginByaccess({
       access_token: accessToken

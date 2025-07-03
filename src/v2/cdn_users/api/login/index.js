@@ -2,6 +2,7 @@ import { $http, $qs } from '../../request'
 
 // 邮箱-手机号-账号登录
 export function login(data) {
+  console.log('login', data)
   return $http({
     url: 'app/account/login',
     method: 'post',

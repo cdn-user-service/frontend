@@ -11,7 +11,7 @@ import 'element-ui/lib/theme-chalk/display.css'
 import '@/plugins/element-theme/index.css'
 import '@/plugins/element-theme/fonts/element-icons.ttf'
 import '@/plugins/element-theme/fonts/element-icons.woff'
-
+import { getToken } from '@/utils/auth'
 // 字体图标
 import '@/assets/fonts/newicon.css'
 
@@ -42,7 +42,7 @@ import { debug, $mode } from '@/utils/env'
 // CDN 获取产品参数数据
 import { doGetProductAttr } from './enum'
 const PROCESS_NAME = process.env.VUE_APP_NAME
-if (PROCESS_NAME.indexOf('cdn') != -1) {
+if (PROCESS_NAME.indexOf('cdn') != -1 && getToken()) {
   doGetProductAttr()
 }
 

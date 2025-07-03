@@ -38,8 +38,17 @@ const actions = {
 }
 
 // 加载路由
+// export const loadView = view => {
+//   return resolve => require([`../../views${view}`], resolve)
+// }
 export const loadView = view => {
-  return resolve => require([`../../views${view}`], resolve)
+  return () => {
+    try {
+      return import(`../../views${view}`)
+    } catch (error) {
+      console.error(`Failed to load component: ../../views${view}`, error)
+    }
+  }
 }
 
 // 递归加载路由
@@ -48,6 +57,8 @@ export const loadRoutes = (children = [], parentPath = '') => {
     item.children = item.children || []
     // item.list = []
     // item.meta = JSON.parse(item.meta || {})
+    item.meta = item.meta || {}
+    item.children = item.children || []
     // 后台自定义的 path 为 url，前台手动写的为 path 
     item.path = item.url || item.path
     item.path = parentPath ? `${parentPath}/${item.path}` : item.path
@@ -79,11 +90,14 @@ export const loadRoutes = (children = [], parentPath = '') => {
 
     // 加载组件
     if (!item.component) {
+      // console.warn('[动态加载组件]', item.path)
       item.component = loadView(item.path)
     }
 
     // 如果没有children则直接返回
-    if (item.children.length) {
+    if (!item || typeof item !== 'object') return false
+    item.children = item.children || []
+    if (item.children && item.children.length) {
       item.children = loadRoutes(item.children, item.path)
     }
 

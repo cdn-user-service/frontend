@@ -141,6 +141,8 @@ export let productAttrObj
 export let productAttr
 
 export async function doGetProductAttr() {
+  const token = localStorage.getItem('token');
+  if (!token) return; // 未登录，不调用接口
   const { data: res } = await getProductAttrObj()
   if (res.code !== 1) return
   const obj = res.data || {}

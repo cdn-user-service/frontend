@@ -170,16 +170,17 @@ export default {
         }
       ]
     }) {
-      // 清除 chart 组件，以免造成数据错误
-      if (clear && this.$refs.chartRef.$children.length) {
-        this.$refs.chartRef.$children[0].clear()
-      }
+      // 清除 chart 组件组件修改版
+        const chartComponent = this.$refs.chartRef
+        if (chartComponent && chartComponent.getEchartsInstance) {
+          chartComponent.getEchartsInstance().clear()
+        }
 
       const legendData = []
       const seriesData = series.map((item, idx) => {
         legendData.push(item.name)
 
-        const newData = item.data
+        const newData = item.data || []
         // 需要去掉首尾为零的数据
         if (newData.length > 2) {
           if (newData[0][1] == 0) {

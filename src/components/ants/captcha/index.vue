@@ -38,8 +38,9 @@ export default {
       return this.url || activeUrl
     },
     imgSrc({ $root }) {
-      console.log('--', $root.webRootApi)
-      return `${$root.webRootApi}${this.cptRUrl}?uuid=${this.random}`
+      const url = `${$root.webRootApi}${this.cptRUrl}?uuid=${this.random}`
+      console.log('🟡 拼接出的验证码完整 URL:', url)
+      return url
     }
   },
   methods: {

@@ -20,6 +20,8 @@
   affix: false, // 是否固定在标签页上 | bool,
   dot: false // 小圆点 | bool
  */
+
+  
 export default [
   {
     path: '/cdn',

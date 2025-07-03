@@ -139,66 +139,78 @@ export default {
      * @description: 登录提交
      */
 
-    submitForm() {
-      if (this.btnLoading) return
-      this.$refs.formRef.validate(async (valid) => {
-        if (!valid) return
-        this.btnLoading = true
+  submitForm() {
+  if (this.btnLoading) return
 
-        try {
-          const { data: res } = await login({
-            account: this.form.username,
-            // password: this.$md5(this.form.passwd),
-            password: this.form.passwd,
-            code: this.form.captcha,
-            googleAuthCode: this.form.googleAuthCode,
-            uuid: this.$refs.AntsCaptchaRef.random // 随机数
-          })
+  this.$refs.formRef.validate(async (valid) => {
+    if (!valid) return
+    this.btnLoading = true
 
-          if (res.code !== 1) {
-            this.btnLoading = false
-            this.$refs.AntsCaptchaRef.changeCaptcha()
-            this.form.captcha = ''
-            return
-          }
-
-          setTimeout(() => {
-            this.btnLoading = false
-          }, 3000)
-
-          // 保存登录凭证并跳转到后台
-          const username = res.username || this.form.username
-          setToken(res.token, username)
-
-          // 如果重定向路径为登录页
-          const { query } = this.$route
-          let redirect = query.redirect
-          if (redirect) {
-            // 其他携带的路由参数
-            Object.keys(query).forEach((key) => {
-              if (key == 'redirect') return
-              redirect += `&${key}=${query[key]}`
-            })
-          }
-          if (!redirect || redirect == '/login') {
-            redirect = '/console'
-          }
-          this.$router.replace(redirect)
-
-          setTimeout(() => {
-            this.$notify({
-              title: this.antsT('登录成功'),
-              message: this.antsT('欢迎回来！') + username,
-              type: 'success',
-              offset: 60
-            })
-          }, 500)
-        } catch (error) {
-          this.btnLoading = false
-          throw error
-        }
+    try {
+      const { data: res } = await login({
+        account: this.form.username,
+        // password: this.$md5(this.form.passwd),
+        password: this.form.passwd,
+        code: this.form.captcha,
+        googleAuthCode: this.form.googleAuthCode,
+        uuid: this.$refs.AntsCaptchaRef.random // 随机数
       })
-    },
+
+      console.log('[后端登录返回]', {
+        code: res.code,
+        msg: res.msg,
+        token: res.token
+      })
+
+      if (res.code !== 1) {
+        this.btnLoading = false
+        this.$refs.AntsCaptchaRef.changeCaptcha()
+
+        // 延迟清空验证码，避免触发校验
+        this.$nextTick(() => {
+          this.form.captcha = ''
+          this.$refs.formRef.clearValidate('captcha')
+        })
+        return
+      }
+
+      // 保存登录凭证
+      const username = res.username || this.form.username
+      setToken(res.token, username)
+
+      // 跳转路径处理
+      const { query } = this.$route
+      let redirect = query.redirect
+      if (redirect) {
+        Object.keys(query).forEach((key) => {
+          if (key === 'redirect') return
+          redirect += `&${key}=${query[key]}`
+        })
+      }
+      if (!redirect || redirect === '/login') {
+        redirect = '/console'
+      }
+
+      // ✅ 等待 token 写入后再跳转
+      setTimeout(() => {
+        this.$router.replace(redirect)
+
+        // 登录成功通知
+        this.$notify({
+          title: this.antsT('登录成功'),
+          message: this.antsT('欢迎回来！') + username,
+          type: 'success',
+          offset: 60
+        })
+
+        this.btnLoading = false
+      }, 300) // 300ms 延迟
+    } catch (error) {
+      this.btnLoading = false
+      throw error
+    }
+  })
+},
 
     // 检查是否需要google auth
     async doGoogleCheck() {
